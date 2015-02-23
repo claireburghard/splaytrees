@@ -1,6 +1,9 @@
+from random import shuffle
+import time
+
 class Node: 
     def __init__(self,value):
-        self.value = val
+        self.value = value
         self.left = None
         self.right = None
 
@@ -8,7 +11,7 @@ class splayTree:
     def __init__(self):
         self.root = None
 
-    def insert(self, value, parent):
+    def insert(self, value, parent=None):
         parent = self.root
         if (parent == None):
             #root is null and tree is empty, so begin the tree with this node. 
@@ -32,7 +35,7 @@ class splayTree:
                 self.insert(value, parent.right)
 
 
-    def search(self, value, node, parent, gparent, ggparent):
+    def search(self, value, node=None, parent=None, gparent=None, ggparent=None):
         if (node == None):
             #this means that we've just begun the find rountine
             node = self.root #this will keep out place
@@ -89,6 +92,31 @@ class splayTree:
                 gparent.right = node
             elif (gp.left == parent):
                 gp.left = node
+
+
+def splay_tree_test(treesize, nsearch):
+    #Build the splay tree
+    print ("Building your tree...")
+    splaytree = splayTree()
+    x = [i for i in range(0, treesize)]
+    shuffle(x)
+    for n in x:
+        splaytree.insert(n)
+    print ("Done building!")
+
+    #Search the splay tree however many times you asked it to 
+    t1 = time.time()
+    for i in range(0, nsearch):
+        for n in x:
+            node = splaytree.search(n)
+            if (node == None):
+                print ("ERROR")
+    t2 = time.time()
+    totaltime = t2-t1
+    print ("Time:" + str(totaltime))
+
+splay_tree_test(1000, 200)
+
 
 
 
